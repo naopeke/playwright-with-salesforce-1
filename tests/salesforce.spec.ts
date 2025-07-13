@@ -1,15 +1,12 @@
 import { test, expect } from '@playwright/test';
 import dotenv from 'dotenv';
 
-dotenv.config({ override: true });
+dotenv.config({ override: true }); //前の値があれば上書き
 
 test.describe('Salesforce', ()=>{
     const loginUrl = process.env.SALESFORCE_LOGIN_URL!;
     const username = process.env.SALESFORCE_USERNAME!;
     const password = process.env.SALESFORCE_PASSWORD!;
-    console.log('Login Url:',loginUrl);
-    console.log('Username:',username);
-
     
     test('test', async({page})=>{
         await page.goto(loginUrl);
@@ -18,6 +15,4 @@ test.describe('Salesforce', ()=>{
         await page.click('#Login');
         await expect(page).toHaveURL(/.*lightning\/page\/home.*/);
     })
-
-
 })
