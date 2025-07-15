@@ -8,7 +8,7 @@ test.describe('Salesforce', ()=>{
     const username = process.env.SALESFORCE_USERNAME!;
     const password = process.env.SALESFORCE_PASSWORD!;
     
-    test('Login', async({page})=>{
+    test.beforeEach('Login', async({page})=>{
         await page.goto(loginUrl);
         await page.fill('#username', username);
         await page.fill('#password', password);
@@ -16,7 +16,12 @@ test.describe('Salesforce', ()=>{
         await expect(page).toHaveURL(/.*lightning\/page\/home.*/);
     })
 
-    test('Choose App', async({page})=>{
+    test('Choose App', {tag:'@smoke'}, async({page})=>{
+        const modalButton = page.getByRole('button').and(page.getByTitle('Allow'));
+        if(modalButton){
+            await page.click('modalButton');
+        }
+     
         const gridMenuIcon = page.locator('button.slds-button.slds-context-bar__button');
         await page.click('gridMenuIcon');
     })
