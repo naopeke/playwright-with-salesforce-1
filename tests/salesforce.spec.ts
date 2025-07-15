@@ -8,11 +8,17 @@ test.describe('Salesforce', ()=>{
     const username = process.env.SALESFORCE_USERNAME!;
     const password = process.env.SALESFORCE_PASSWORD!;
     
-    test('test', async({page})=>{
+    test('Login', async({page})=>{
         await page.goto(loginUrl);
         await page.fill('#username', username);
         await page.fill('#password', password);
         await page.click('#Login');
         await expect(page).toHaveURL(/.*lightning\/page\/home.*/);
     })
+
+    test('Choose App', async({page})=>{
+        const gridMenuIcon = page.locator('button.slds-button.slds-context-bar__button');
+        await page.click('gridMenuIcon');
+    })
+
 })
